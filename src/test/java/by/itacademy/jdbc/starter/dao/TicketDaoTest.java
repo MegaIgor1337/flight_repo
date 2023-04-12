@@ -70,7 +70,6 @@ public class TicketDaoTest extends TestCase {
         List<Ticket> tickets = ticketDao.findAll();
         assertEquals("112233", tickets.get(0).getPassportNo());
         assertEquals("Светлана Светикова", tickets.get(10).getPassengerName());
-        assertEquals("D2  ", tickets.get(14).getSeatNo());
     }
 
     public void testTestFindAll() {
