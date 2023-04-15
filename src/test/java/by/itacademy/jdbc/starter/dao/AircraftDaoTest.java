@@ -1,7 +1,7 @@
 package by.itacademy.jdbc.starter.dao;
 
 import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
-import by.itacademy.jdbc.starter.filter.AircraftFilter;
+import by.itacademy.jdbc.starter.dao.filter.AircraftFilter;
 import junit.framework.TestCase;
 
 import java.util.List;

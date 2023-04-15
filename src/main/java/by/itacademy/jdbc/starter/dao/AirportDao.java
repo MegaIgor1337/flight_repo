@@ -2,7 +2,7 @@ package by.itacademy.jdbc.starter.dao;
 
 import by.itacademy.jdbc.starter.entity.airport.Airport;
 import by.itacademy.jdbc.starter.exceptions.DaoException;
-import by.itacademy.jdbc.starter.filter.AirportFilter;
+import by.itacademy.jdbc.starter.dao.filter.AirportFilter;
 import by.itacademy.jdbc.starter.util.ConnectionManager;
 
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class AirportDao implements Dao<String, Airport, AirportFilter> {
+public class AirportDao implements Dao<String, Airport> {
 
     private static final AirportDao INSTANCE = new AirportDao();
 
@@ -95,7 +95,7 @@ public class AirportDao implements Dao<String, Airport, AirportFilter> {
         }
     }
 
-    @Override
+
     public List<Airport> findAll(AirportFilter filter) {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();

@@ -5,7 +5,7 @@ import by.itacademy.jdbc.starter.entity.airport.Airport;
 import by.itacademy.jdbc.starter.entity.flight.Flight;
 import by.itacademy.jdbc.starter.entity.flight.FlightStatus;
 import by.itacademy.jdbc.starter.entity.ticket.Ticket;
-import by.itacademy.jdbc.starter.filter.TicketFilter;
+import by.itacademy.jdbc.starter.dao.filter.TicketFilter;
 import junit.framework.TestCase;
 
 import java.math.BigDecimal;

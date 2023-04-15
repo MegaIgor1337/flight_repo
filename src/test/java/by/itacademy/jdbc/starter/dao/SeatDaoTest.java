@@ -3,7 +3,7 @@ package by.itacademy.jdbc.starter.dao;
 import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
 import by.itacademy.jdbc.starter.entity.seat.Seat;
 import by.itacademy.jdbc.starter.entity.seat.SeatKey;
-import by.itacademy.jdbc.starter.filter.SeatFilter;
+import by.itacademy.jdbc.starter.dao.filter.SeatFilter;
 import junit.framework.TestCase;
 
 import java.util.List;

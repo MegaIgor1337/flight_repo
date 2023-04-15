@@ -1,7 +1,7 @@
 package by.itacademy.jdbc.starter.dao;
 
 import by.itacademy.jdbc.starter.entity.airport.Airport;
-import by.itacademy.jdbc.starter.filter.AirportFilter;
+import by.itacademy.jdbc.starter.dao.filter.AirportFilter;
 import junit.framework.TestCase;
 
 import java.util.Comparator;

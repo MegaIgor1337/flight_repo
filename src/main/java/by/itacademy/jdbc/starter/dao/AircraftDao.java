@@ -2,7 +2,7 @@ package by.itacademy.jdbc.starter.dao;
 
 import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
 import by.itacademy.jdbc.starter.exceptions.DaoException;
-import by.itacademy.jdbc.starter.filter.AircraftFilter;
+import by.itacademy.jdbc.starter.dao.filter.AircraftFilter;
 import by.itacademy.jdbc.starter.util.ConnectionManager;
 
 import java.sql.*;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class AircraftDao implements Dao<Long, Aircraft, AircraftFilter>{
+public class AircraftDao implements Dao<Long, Aircraft>{
 
     private static final AircraftDao INSTANCE = new AircraftDao();
 
@@ -90,7 +90,7 @@ public class AircraftDao implements Dao<Long, Aircraft, AircraftFilter>{
         }
     }
 
-    @Override
+
     public List<Aircraft> findAll(AircraftFilter filter) {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();

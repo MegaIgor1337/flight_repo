@@ -3,7 +3,7 @@ package by.itacademy.jdbc.starter.dao;
 import by.itacademy.jdbc.starter.entity.seat.Seat;
 import by.itacademy.jdbc.starter.entity.seat.SeatKey;
 import by.itacademy.jdbc.starter.exceptions.DaoException;
-import by.itacademy.jdbc.starter.filter.SeatFilter;
+import by.itacademy.jdbc.starter.dao.filter.SeatFilter;
 import by.itacademy.jdbc.starter.util.ConnectionManager;
 
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SeatDao implements Dao<SeatKey, Seat, SeatFilter> {
+public class SeatDao implements Dao<SeatKey, Seat> {
 
     private static final AircraftDao aircraftDao = AircraftDao.getInstance();
 
@@ -102,7 +102,6 @@ public class SeatDao implements Dao<SeatKey, Seat, SeatFilter> {
         }
     }
 
-    @Override
     public List<Seat> findAll(SeatFilter filter) {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();

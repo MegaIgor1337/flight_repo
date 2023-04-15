@@ -1,19 +1,18 @@
 package by.itacademy.jdbc.starter.dao;
 
-import by.itacademy.jdbc.starter.filter.FlightFilter;
+import by.itacademy.jdbc.starter.dao.filter.FlightFilter;
 import by.itacademy.jdbc.starter.entity.flight.Flight;
 import by.itacademy.jdbc.starter.entity.flight.FlightStatus;
 import by.itacademy.jdbc.starter.exceptions.DaoException;
 import by.itacademy.jdbc.starter.util.ConnectionManager;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class FlightDao implements Dao<Long, Flight, FlightFilter> {
+public class FlightDao implements Dao<Long, Flight> {
     private static final FlightDao INSTANCE = new FlightDao();
     private static final AirportDao airportDao = AirportDao.getInstance();
     private static final AircraftDao aircraftDao = AircraftDao.getInstance();

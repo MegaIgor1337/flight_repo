@@ -1,6 +1,6 @@
 package by.itacademy.jdbc.starter.dao;
 
-import by.itacademy.jdbc.starter.filter.TicketFilter;
+import by.itacademy.jdbc.starter.dao.filter.TicketFilter;
 import by.itacademy.jdbc.starter.entity.ticket.Ticket;
 import by.itacademy.jdbc.starter.exceptions.DaoException;
 import by.itacademy.jdbc.starter.util.ConnectionManager;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class TicketDao implements Dao<Long, Ticket, TicketFilter> {
+public class TicketDao implements Dao<Long, Ticket> {
     private static final TicketDao INSTANCE = new TicketDao();
     private static final FlightDao flightDao = FlightDao.getInstance();
 

@@ -2,7 +2,7 @@ package by.itacademy.jdbc.starter;
 
 import by.itacademy.jdbc.starter.dao.FlightDao;
 import by.itacademy.jdbc.starter.dao.TicketDao;
-import by.itacademy.jdbc.starter.filter.TicketFilter;
+import by.itacademy.jdbc.starter.dao.filter.TicketFilter;
 import by.itacademy.jdbc.starter.util.ConnectionManager;
 
 import java.sql.Connection;

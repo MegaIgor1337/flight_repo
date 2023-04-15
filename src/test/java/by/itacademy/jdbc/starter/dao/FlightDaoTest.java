@@ -4,7 +4,7 @@ import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
 import by.itacademy.jdbc.starter.entity.airport.Airport;
 import by.itacademy.jdbc.starter.entity.flight.Flight;
 import by.itacademy.jdbc.starter.entity.flight.FlightStatus;
-import by.itacademy.jdbc.starter.filter.FlightFilter;
+import by.itacademy.jdbc.starter.dao.filter.FlightFilter;
 import junit.framework.TestCase;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package by.itacademy.jdbc.starter.filter;
+package by.itacademy.jdbc.starter.dao.filter;
 
 import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
 

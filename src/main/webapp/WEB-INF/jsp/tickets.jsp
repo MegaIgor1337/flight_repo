@@ -7,6 +7,7 @@
     <title>Билеты</title>
 </head>
 <body>
+<%@ include file="header.jsp"%>
 <h1>Купленные билеты: </h1>
 <ul>
     <c:if test="${not empty requestScope.tickets}">
