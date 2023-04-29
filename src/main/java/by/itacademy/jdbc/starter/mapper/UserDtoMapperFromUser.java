@@ -1,31 +1,25 @@
 package by.itacademy.jdbc.starter.mapper;
+
 import by.itacademy.jdbc.starter.dto.UserDto;
+import by.itacademy.jdbc.starter.entity.user.BirthDay;
 import by.itacademy.jdbc.starter.entity.user.PersonalInfo;
 import by.itacademy.jdbc.starter.entity.user.User;
-import lombok.NoArgsConstructor;
 
-import static lombok.AccessLevel.PRIVATE;
+import java.time.LocalDate;
 
-@NoArgsConstructor(access = PRIVATE)
-public class UserMapper implements Mapper<User, UserDto> {
-
-    private static final UserMapper INSTANCE = new UserMapper();
-
+public class UserDtoMapperFromUser implements Mapper<User, UserDto>{
     @Override
     public UserDto mapFrom(User object) {
         return UserDto.builder()
                 .id(object.getId())
                 .name(object.getName())
                 .personalInfo(PersonalInfo.builder()
-                        .password(object.getPersonalInfo().getPassword())
+                        .birthDate(object.getPersonalInfo().getBirthDate())
                         .email(object.getPersonalInfo().getEmail())
-                        .birthDate(object.getPersonalInfo().getBirthDate()).build())
+                        .password(object.getPersonalInfo().getPassword())
+                        .build())
                 .role(object.getRole())
                 .gender(object.getGender())
                 .build();
-    }
-
-    public static UserMapper getInstance() {
-        return INSTANCE;
     }
 }

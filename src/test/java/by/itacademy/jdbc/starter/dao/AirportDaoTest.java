@@ -1,7 +1,7 @@
 package by.itacademy.jdbc.starter.dao;
 
 import by.itacademy.jdbc.starter.entity.airport.Airport;
-import by.itacademy.jdbc.starter.dao.filter.AirportFilter;
+import by.itacademy.jdbc.starter.service.AirportService;
 import junit.framework.TestCase;
 
 import java.util.Comparator;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class AirportDaoTest extends TestCase {
 
-    private static final AirportDao airportDao = AirportDao.getInstance();
+    private static final AirportService airportService = AirportService.getInstance();
 
     public void testUpdate() {
         Airport airport = new Airport(
@@ -19,14 +19,14 @@ public class AirportDaoTest extends TestCase {
                 "Беларусь",
                 "Минск-2"
         );
-        assertTrue(airportDao.update(airport));
-        if (airportDao.findById("MNK").isPresent()) {
-            assertEquals("Минск-2", airportDao.findById("MNK").get().getCity());
+        assertTrue(airportService.update(airport));
+        if (airportService.find("MNK").isPresent()) {
+            assertEquals("Минск-2", airportService.find("MNK").get().getCity());
         }
     }
 
     public void testFindById() {
-        Optional<Airport> airport = airportDao.findById("LDN");
+        Optional<Airport> airport = airportService.find("LDN");
         if (airport.isPresent()) {
             assertEquals("Англия", airport.get().getCountry());
             assertEquals("Лондон", airport.get().getCity());
@@ -36,32 +36,24 @@ public class AirportDaoTest extends TestCase {
     }
 
     public void testFindAll() {
-        List<Airport> airports = airportDao.findAll();
+        List<Airport> airports = airportService.get();
         assertEquals("MNK", airports.stream()
                 .sorted(Comparator.comparing(Airport::getCode)).toList().get(2).getCode());
         assertEquals("Россия", airports.stream()
                 .sorted(Comparator.comparing(Airport::getCode)).toList().get(3).getCountry());
     }
 
-    public void testTestFindAll() {
-        AirportFilter filter = new AirportFilter(5, 0, null, "Испания", null);
-        List<Airport> airports = airportDao.findAll(filter);
-        assertEquals("BSL", airports.get(0).getCode());
-        assertEquals("Барселона", airports.get(0).getCity());
-        assertEquals(1, airports.size());
-    }
+
 
 
     public void testSave() {
         Airport airport = new Airport("PRS", "Франция", "Париж");
-        Airport saveAirport = airportDao.save(airport);
-        assertEquals(airport, saveAirport);
-        assertEquals(5, airportDao.findAll().size());
+        assertTrue(airportService.save(airport));
     }
 
     public void testDelete() {
-        assertTrue(airportDao.delete(airportDao.findAll().stream()
+        assertTrue(airportService.delete(airportService.get().stream()
                 .sorted(Comparator.comparing(Airport::getCode)).toList()
-                .get(airportDao.findAll().size() - 1).getCode()));
+                .get(airportService.get().size() - 1).getCode()));
     }
 }

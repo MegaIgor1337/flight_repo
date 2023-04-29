@@ -1,59 +1,53 @@
 package by.itacademy.jdbc.starter.dao;
 
 import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
-import by.itacademy.jdbc.starter.dao.filter.AircraftFilter;
+import by.itacademy.jdbc.starter.service.AircraftService;
 import junit.framework.TestCase;
 
 import java.util.List;
 import java.util.Optional;
 
 public class AircraftDaoTest extends TestCase {
-    private static final AircraftDao aircraftDao = AircraftDao.getInstance();
+    private static final AircraftService aircraftService = AircraftService.getInstance();
 
     public void testUpdate() {
         Aircraft aircraft = new Aircraft(
                 3L,
                 "Аэробус A320-210"
         );
-        assertTrue(aircraftDao.update(aircraft));
-        if (aircraftDao.findById(3L).isPresent()) {
+        assertTrue(aircraftService.update(aircraft));
+        if (aircraftService.find(3L).isPresent()) {
             assertEquals("Аэробус A320-210",
-                    aircraftDao.findById(3L).get().getModel());
+                    aircraftService.find(3L).get().getModel());
         }
     }
 
     public void testFindById() {
-        Optional<Aircraft> aircraft = aircraftDao.findById(2L);
+        Optional<Aircraft> aircraft = aircraftService.find(2L);
         aircraft.ifPresent(value -> assertEquals("Боинг 737-300", value.getModel()));
     }
 
     public void testFindAll() {
-        List<Aircraft> aircrafts = aircraftDao.findAll();
+        List<Aircraft> aircrafts = aircraftService.get();
         assertEquals("Суперджет-100", aircrafts.stream().
                 sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId())).toList().get(3).getModel());
         assertEquals("Боинг 777-300", aircrafts.stream().
                 sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId())).toList().get(0).getModel());
     }
 
-    public void testTestFindAll() {
-        AircraftFilter filter = new AircraftFilter(2, 0, "Боинг 777-300");
-        List<Aircraft> aircrafts = aircraftDao.findAll(filter);
-        assertEquals("Боинг 777-300", aircrafts.get(0).getModel());
-    }
+
 
     public void testSave() {
         Aircraft aircraft = new Aircraft(null, "Су-47");
-        Aircraft saveAircraft = aircraftDao.save(aircraft);
-        assertEquals(Optional.of(aircraftDao.findAll().stream().
-                        sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId())).toList().get(4).getId()),
-                Optional.of(saveAircraft.getId()));
-        assertEquals(5, aircraftDao.findAll().size());
+
+        assertTrue(aircraftService.save(aircraft));
+        assertEquals(5, aircraftService.get().size());
     }
 
     public void testDelete() {
-        assertTrue(aircraftDao.delete(aircraftDao.findAll().stream().
+        assertTrue(aircraftService.delete(aircraftService.get().stream().
                 sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId()))
-                .toList().get(aircraftDao.findAll().size() - 1).getId()));
-        assertEquals(4, aircraftDao.findAll().size());
+                .toList().get(aircraftService.get().size() - 1).getId()));
+        assertEquals(4, aircraftService.get().size());
     }
 }

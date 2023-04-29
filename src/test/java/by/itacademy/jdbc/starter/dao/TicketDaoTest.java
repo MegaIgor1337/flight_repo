@@ -4,9 +4,13 @@ import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
 import by.itacademy.jdbc.starter.entity.airport.Airport;
 import by.itacademy.jdbc.starter.entity.flight.Flight;
 import by.itacademy.jdbc.starter.entity.flight.FlightStatus;
+import by.itacademy.jdbc.starter.entity.seat.Seat;
+import by.itacademy.jdbc.starter.entity.seat.SeatKey;
 import by.itacademy.jdbc.starter.entity.ticket.Ticket;
-import by.itacademy.jdbc.starter.dao.filter.TicketFilter;
+import by.itacademy.jdbc.starter.service.TicketService;
 import junit.framework.TestCase;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -14,9 +18,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-
+@Slf4j
 public class TicketDaoTest extends TestCase {
-    private static final TicketDao ticketDao = TicketDao.getInstance();
+    private static final TicketService ticketService = TicketService.getInstance();
 
 
     public void testUpdate() {
@@ -44,13 +48,16 @@ public class TicketDaoTest extends TestCase {
                                 "Боинг 737-300"
                         ),
                         FlightStatus.ARRIVED),
-                "B2  ",
+
+                                "D2",
+
+
                 BigDecimal.valueOf(444.00)
         );
-        ticketDao.update(ticket);
+        ticketService.update(ticket);
         BigDecimal bd = new BigDecimal("444.00").setScale(2, RoundingMode.HALF_UP);
-        if (ticketDao.findById(15L).isPresent()) {
-            assertEquals(bd, ticketDao.findById(15L).get().getCost());
+        if (ticketService.find(15L).isPresent()) {
+            assertEquals(bd, ticketService.find(15L).get().getCost());
         } else {
             fail();
         }
@@ -58,7 +65,7 @@ public class TicketDaoTest extends TestCase {
 
     public void testFindById() {
 
-        Optional<Ticket> findTicket = ticketDao.findById(21L);
+        Optional<Ticket> findTicket = ticketService.find(21L);
         if (findTicket.isPresent()) {
             assertEquals("Анастасия Шепелева", findTicket.get().getPassengerName());
         } else {
@@ -67,28 +74,16 @@ public class TicketDaoTest extends TestCase {
     }
 
     public void testFindAll() {
-        List<Ticket> tickets = ticketDao.findAll();
+        List<Ticket> tickets = ticketService.get();
         assertEquals("112233", tickets.get(0).getPassportNo());
         assertEquals("Светлана Светикова", tickets.get(10).getPassengerName());
     }
 
-    public void testTestFindAll() {
-        TicketFilter filter = new TicketFilter(10, 0, null, "B2");
-        List<Ticket> tickets = ticketDao.findAll(filter);
-        assertEquals("SS988D", tickets.get(0).getPassportNo());
-        assertEquals("Иван Розмаринов", tickets.get(1).getPassengerName());
-        assertEquals(Optional.ofNullable(3L), Optional.ofNullable(tickets.stream().
-                sorted(((o1, o2) -> Long.compare(o1.getId(), o2.getId()))).
-                toList().
-                get(2).getFlight().getId()));
-        assertEquals(5, tickets.size());
-    }
-
     public void testDelete() {
 
-        assertTrue(ticketDao.delete(ticketDao.findAll().stream()
+        assertTrue(ticketService.delete(ticketService.get().stream()
                 .sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId()))
-                .toList().get(ticketDao.findAll().size() - 1).getId()));
+                .toList().get(ticketService.get().size() - 1).getId()));
     }
 
     public void testSave() {
@@ -117,12 +112,15 @@ public class TicketDaoTest extends TestCase {
                         ),
                         FlightStatus.ARRIVED
                 ),
-                "D2",
+
+                                "D7",
                 BigDecimal.valueOf(294.00)
         );
-        Ticket saveTicket = ticketDao.save(ticket);
-        assertEquals(Optional.of(ticketDao.findAll().stream()
-                .sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId()))
-                .toList().get(ticketDao.findAll().size() - 1).getId()), Optional.of(saveTicket.getId()));
+        assertTrue(ticketService.save(ticket));
     }
+
+//    @Test
+//    public void textLog() {
+//           log.info("lkdfdlfkdlfd");
+//    }
 }

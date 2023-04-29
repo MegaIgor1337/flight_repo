@@ -10,11 +10,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 import static by.itacademy.jdbc.starter.util.UrlPath.LOGIN;
 
+@Slf4j
 @WebServlet(LOGIN)
 public class LoginServlet extends HttpServlet {
 
@@ -33,6 +35,7 @@ public class LoginServlet extends HttpServlet {
                         user -> onLoginSuccess(user, req, resp),
                         () -> onLoginFail(req, resp)
                 );
+
     }
 
     @SneakyThrows
@@ -43,6 +46,7 @@ public class LoginServlet extends HttpServlet {
     @SneakyThrows
     private void onLoginSuccess(UserDto user, HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().setAttribute("user", user);
+        log.info("User logged: {}", user);
         resp.sendRedirect("/flights");
     }
 }

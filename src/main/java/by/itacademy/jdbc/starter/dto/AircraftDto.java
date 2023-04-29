@@ -1,4 +1,4 @@
-package by.itacademy.jdbc.starter.entity.aircraft;
+package by.itacademy.jdbc.starter.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,19 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "aircraft", schema = "public")
-public class Aircraft {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AircraftDto {
+
     private Long id;
     private String model;
 
 }
+

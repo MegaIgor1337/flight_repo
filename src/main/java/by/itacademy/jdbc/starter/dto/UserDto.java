@@ -1,19 +1,25 @@
 package by.itacademy.jdbc.starter.dto;
 
 import by.itacademy.jdbc.starter.entity.user.Gender;
+import by.itacademy.jdbc.starter.entity.user.PersonalInfo;
 import by.itacademy.jdbc.starter.entity.user.Role;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UserDto {
-    Integer id;
-    String name;
-    LocalDate birthday;
-    String email;
-    Role role;
-    Gender gender;
+    private Long id;
+    private String name;
+
+    private PersonalInfo personalInfo;
+
+    private Role role;
+    private Gender gender;
 }

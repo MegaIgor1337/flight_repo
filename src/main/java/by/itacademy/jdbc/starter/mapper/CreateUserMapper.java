@@ -1,12 +1,9 @@
 package by.itacademy.jdbc.starter.mapper;
 
-import by.itacademy.jdbc.starter.dto.CreateUserDto;
-import by.itacademy.jdbc.starter.entity.user.Gender;
-import by.itacademy.jdbc.starter.entity.user.Role;
-import by.itacademy.jdbc.starter.entity.user.User;
-import by.itacademy.jdbc.starter.mapper.Mapper;
-import by.itacademy.jdbc.starter.util.LocalDateFormatter;
+import by.itacademy.jdbc.starter.entity.user.*;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -19,9 +16,13 @@ public class CreateUserMapper implements Mapper<CreateUserDto, User> {
     public User mapFrom(CreateUserDto object) {
         return User.builder()
                 .name(object.getName())
-                .birthday(LocalDateFormatter.format(object.getBirthday()))
-                .email(object.getEmail())
-                .password(object.getPassword())
+                .personalInfo(
+                        PersonalInfo.builder()
+                                .birthDate(new BirthDay(LocalDate.parse(object.getBirthday())))
+                                .email(object.getEmail())
+                                .password(object.getPassword())
+                                .build()
+                )
                 .gender(Gender.valueOf(object.getGender()))
                 .role(Role.valueOf(object.getRole()))
                 .build();

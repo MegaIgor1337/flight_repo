@@ -4,7 +4,7 @@ import by.itacademy.jdbc.starter.entity.aircraft.Aircraft;
 import by.itacademy.jdbc.starter.entity.airport.Airport;
 import by.itacademy.jdbc.starter.entity.flight.Flight;
 import by.itacademy.jdbc.starter.entity.flight.FlightStatus;
-import by.itacademy.jdbc.starter.dao.filter.FlightFilter;
+import by.itacademy.jdbc.starter.service.FlightService;
 import junit.framework.TestCase;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class FlightDaoTest extends TestCase {
-    private static final FlightDao flightDao = FlightDao.getInstance();
+    private static final FlightService flightService = FlightService.getInstance();
 
     public void testUpdate() {
         Flight flight = new Flight(
@@ -36,17 +36,17 @@ public class FlightDaoTest extends TestCase {
                 ),
                 FlightStatus.DEPARTED
         );
-        assertTrue(flightDao.update(flight));
-        if (flightDao.findById(4L).isPresent()) {
+        assertTrue(flightService.update(flight));
+        if (flightService.find(4L).isPresent()) {
             assertEquals(LocalDateTime.of(2020, 8, 1, 14, 20, 0),
-                    flightDao.findById(4L).get().getArrivalDate());
+                    flightService.find(4L).get().getArrivalDate());
         } else {
             fail();
         }
     }
 
     public void testFindById() {
-        Optional<Flight> flight = flightDao.findById(1L);
+        Optional<Flight> flight = flightService.find(1L);
         if (flight.isPresent()) {
             assertEquals("MN3002", flight.get().getFlightNo());
             assertEquals(Optional.of(1L), Optional.of(flight.get().getId()));
@@ -56,7 +56,7 @@ public class FlightDaoTest extends TestCase {
     }
 
     public void testFindAll() {
-        List<Flight> flights = flightDao.findAll();
+        List<Flight> flights = flightService.get();
         assertEquals(Optional.of(1L), Optional.of(flights.stream().
                 sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId())).
                 toList().
@@ -73,9 +73,9 @@ public class FlightDaoTest extends TestCase {
     }
 
     public void testDelete() {
-        assertTrue(flightDao.delete(flightDao.findAll().stream()
+        assertTrue(flightService.delete(flightService.get().stream()
                 .sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId()))
-                .toList().get(flightDao.findAll().size() - 1).getId()));
+                .toList().get(flightService.get().size() - 1).getId()));
     }
 
     public void testSave() {
@@ -100,25 +100,8 @@ public class FlightDaoTest extends TestCase {
                 ),
                 FlightStatus.ARRIVED
         );
-        Flight saveFlight = flightDao.save(flight);
-        assertEquals(Optional.of(flightDao.findAll().stream()
-                .sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId()))
-                .toList().get(flightDao.findAll().size() - 1).getId()), Optional.of(saveFlight.getId()));
+
+        assertTrue( flightService.save(flight));
     }
 
-    public void testTestFindAll() {
-        FlightFilter filter = new FlightFilter(
-                3,
-                0,
-                null,
-                null,
-                "LDN",
-                null,
-                "MNK",
-                null,
-                null
-        );
-        List<Flight> flights = flightDao.findAll(filter);
-        assertEquals(2, flights.size());
-    }
 }

@@ -1,11 +1,12 @@
-package by.itacademy.jdbc.starter.dto;
+package by.itacademy.jdbc.starter.entity.user;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class CreateUserDto {
+    String id;
     String name;
     String birthday;
     String email;

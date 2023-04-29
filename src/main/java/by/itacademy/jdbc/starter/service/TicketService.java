@@ -1,30 +1,37 @@
 package by.itacademy.jdbc.starter.service;
 
-import by.itacademy.jdbc.starter.dao.TicketDao;
+
+import by.itacademy.jdbc.starter.dto.CrudOperations;
 import by.itacademy.jdbc.starter.dto.TicketDto;
+import by.itacademy.jdbc.starter.entity.ticket.Ticket;
+import by.itacademy.jdbc.starter.mapper.TicketMapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Objects;
+import java.util.Optional;
 
-public class TicketService {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class TicketService implements CrudOperations<Ticket,  Long> {
     private final static TicketService INSTANCE = new TicketService();
-    private final TicketDao ticketDao = TicketDao.getInstance();
+    private final TicketMapper ticketMapper = new TicketMapper();
 
-    public List<TicketDto> findAllByFlightId(Long flightId) {
-        return ticketDao.findAllByFlightDao(flightId).stream().map(
-                e -> new TicketDto(
-                        e.getId(),
-                        e.getFlight().getId(),
-                        e.getSeatNo()
-                )
-        ).collect(Collectors.toList());
-    }
 
     public static TicketService getInstance() {
         return INSTANCE;
     }
 
-    private TicketService() {
+    public List<TicketDto> findAllByFlightId(Long flightId) {
+        return get().stream().map(ticketMapper::mapFrom).filter(it -> Objects.equals(it.getFlight().getId(), flightId))
+                .toList();
+    }
+
+    @Override
+    public Class<Ticket> getEntityClass() {
+        return Ticket.class;
     }
 }

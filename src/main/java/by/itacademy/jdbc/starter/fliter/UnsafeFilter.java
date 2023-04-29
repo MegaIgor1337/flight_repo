@@ -11,7 +11,8 @@ import java.io.IOException;
 @WebFilter("/admin")
 public class UnsafeFilter implements Filter {
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         var user = ((HttpServletRequest) servletRequest).getSession()
                 .getAttribute("user");
         if (user != null) {

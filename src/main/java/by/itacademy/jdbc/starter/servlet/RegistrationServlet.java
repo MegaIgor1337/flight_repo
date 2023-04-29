@@ -1,27 +1,32 @@
 package by.itacademy.jdbc.starter.servlet;
 
-import by.itacademy.jdbc.starter.dto.CreateUserDto;
 import by.itacademy.jdbc.starter.entity.user.Gender;
 import by.itacademy.jdbc.starter.entity.user.Role;
 import by.itacademy.jdbc.starter.exceptions.ValidationException;
 import by.itacademy.jdbc.starter.service.UserService;
 import by.itacademy.jdbc.starter.util.JspHelper;
-import by.itacademy.jdbc.starter.util.UrlPath;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import by.itacademy.jdbc.starter.entity.user.CreateUserDto;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 import static by.itacademy.jdbc.starter.util.UrlPath.REGISTRATION;
 
+@Slf4j
 @WebServlet(REGISTRATION)
 public class RegistrationServlet extends HttpServlet {
     private final UserService userService = UserService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var user = req.getSession().
+                getAttribute("user");
+        log.info("User on registration servlet: {}", user);
         req.setAttribute("roles", Role.values());
         req.setAttribute("genders", Gender.values());
         req.getRequestDispatcher(JspHelper.getPath("registration"))
@@ -40,6 +45,7 @@ public class RegistrationServlet extends HttpServlet {
                 .build();
         try {
             userService.create(userDto);
+            log.info("User created: {}", userDto);
             resp.sendRedirect("/login");
         } catch (ValidationException exception) {
             req.setAttribute("errors", exception.getErrors());
